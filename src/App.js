@@ -1,24 +1,38 @@
-import logo from './logo.svg';
+// App.js
 import './App.css';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import Routes
+import BlogSingleDetail from "./components/BlogSingleDetail"
+import Blogs from "./components/Blogs";
+import BlogDetails from "./components/BlogDetails";
 
 function App() {
+  const [data, setData] = useState([]);
+  const [categories, setCategories] = useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get("https://fakestoreapi.com/products");
+      const res = await response.data;
+      const cat = res.map((each) => each.category);
+      const uniqueCat = new Set(cat)
+      setCategories(uniqueCat); 
+      console.log(uniqueCat);
+      console.log(res);
+      setData(res);
+    }
+    fetchData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Blogs data={data} categories={categories}/>} />
+        <Route path="/blog/:category" element={<BlogDetails data={data}/>} />
+        <Route path="/product/:productId" element={<BlogSingleDetail/>}/>
+      </Routes>
+    </Router>
   );
 }
 
