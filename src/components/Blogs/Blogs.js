@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import "./BlogDetails.css";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import "./Blogs.css";
 
-const BlogDetails = ({ data }) => {
+const Blogs = ({ data,updateCategories }) => {
   const { category } = useParams();
   const [filteredData, setFilteredData] = useState([]);
-
+  const navigate = useNavigate();
+  const handleSingleCategoryClick = (id,category) => {
+    navigate(`/blog/${category}/${id}`);
+  };
   useEffect(() => {
     const filteredPosts = data.filter((post) => post.category === category);
     setFilteredData(filteredPosts);
-  }, [data, category]);
+    updateCategories(category)
+  }, [data, category,updateCategories]);
 
   const renderProducts = () => {
     return filteredData.map((product, index) => {
-      const { id, title, image, price } = product;
+      const { id, title, image, price,category } = product;
       return (
         <div className="col-lg-3 col-md-6 col-sm-12 pb-1" key={index}>
           <div className="card border-0 mb-4">
@@ -27,9 +31,9 @@ const BlogDetails = ({ data }) => {
               </div>
             </div>
             <div className="card-footer d-flex justify-content-between bg-light border">
-              <Link to={`/blog/${id}`} style={{ textDecoration: "none" }} className="linkText">
-                <i className="fas fa-eye mr-1 fas-color"></i><span className='' style={{ color: "black" }} >View Detail</span>
-              </Link>
+             
+            <button className="text-dark p-0 view-button"><i className="fas fa-eye mr-1 fas-color"></i><span className="view-button" onClick={()=>handleSingleCategoryClick(id,category)}>View Detail</span></button>
+             
               <button className="text-dark p-0 view-button"><i className="fas fa-shopping-cart mr-1 fas-color"></i><span className="view-button">Add To Cart</span></button>
             </div>
           </div>
@@ -39,14 +43,14 @@ const BlogDetails = ({ data }) => {
   };
 
   return (
-    <div>
-      <h2>Blog Details for Category: {category}</h2>
+    <div className="text-center m-2">
+      <h2 className="my-4">Blog Details for Category: {category}</h2>
       <div className="row">
         {renderProducts()}
       </div>
-      <Link to="/">Back</Link>
+      <Link to="/" className="text-white border p-1 px-4" style={{backgroundColor:"blue"}}>Back</Link>
     </div>
   );
 };
 
-export default BlogDetails;
+export default Blogs;

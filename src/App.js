@@ -1,11 +1,10 @@
-// App.js
-import './App.css';
-import { useEffect, useState } from 'react';
+import React,{ useEffect, useState } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Import Routes
-import BlogSingleDetail from "./components/BlogSingleDetail"
-import Blogs from "./components/Blogs";
-import BlogDetails from "./components/BlogDetails";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
+import Home from './components/Home/Home';
+import Blogs from './components/Blogs/Blogs';
+import SingleBlogDetail from './components/SingleBlogDetail/SingleBlogDetail';
+import './App.css';
 
 function App() {
   const [data, setData] = useState([]);
@@ -18,21 +17,26 @@ function App() {
       const cat = res.map((each) => each.category);
       const uniqueCat = new Set(cat)
       setCategories(uniqueCat); 
-      console.log(uniqueCat);
-      console.log(res);
       setData(res);
     }
     fetchData();
   }, []);
 
+  const updateCategories = (category) => {
+    const cats = [...categories].filter((each)=>each!==category)
+    setCategories(cats)
+  }
+
   return (
+    <>
     <Router>
       <Routes>
-        <Route path="/" element={<Blogs data={data} categories={categories}/>} />
-        <Route path="/blog/:category" element={<BlogDetails data={data}/>} />
-        <Route path="/product/:productId" element={<BlogSingleDetail/>}/>
+        <Route path="/" element={<Home data={data} categories={categories}/>} />
+        <Route path="/blog/:category" element={<Blogs data={data} updateCategories={updateCategories}/>} />
+        <Route path="/blog/:category/:id" element={<SingleBlogDetail/>}/>
       </Routes>
     </Router>
+    </>
   );
 }
 

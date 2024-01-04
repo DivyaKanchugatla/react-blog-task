@@ -1,0 +1,55 @@
+.colorful-heading {
+    font-weight: 600;
+    font-size: 28px;
+    text-align: start;
+}
+#specifyColor:checked {
+    accent-color: #D19C97 !important;
+    border: none;
+}
+.star{
+    color: #D19C97 !important;
+    width: 30px !important;
+    accent-color: #232323;
+}
+.shopdetail-addtocart-button {
+    background-color: #D19C97;
+    border: none;
+    height: 30px; 
+    width: 150px !important;
+    padding: 5px !important;
+    font-size: 12px;
+}
+.shopdetail-addtocart-button:hover{
+    color: white;
+}
+.shopdetail-addtocart:hover{
+    color: white;
+}
+.add-icon{
+    height: 30px;
+    width: 30px;
+    background-color: #d19c97;
+    color: #ffffff;
+     padding: 5px;
+    
+}
+.count-value{
+    color:lightslategray;
+    text-align: center;
+    height: 30px;
+    background-color:#edf1ff;
+    padding-bottom: 5px;
+    width:40px;
+    
+}
+
+.add-icon:hover{
+    color: #ffffff !important;
+    cursor:  pointer !important;
+    fill: #ffffff;
+}
+.remove-icon:hover{
+    fill: #ffffff;
+    cursor: pointer;
+}
